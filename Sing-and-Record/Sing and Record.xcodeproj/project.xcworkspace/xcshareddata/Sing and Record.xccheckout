@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4D688358-842F-4101-8520-8CF764405CA8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Sing and Record</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BE8F7BBD2F5005EAFB545BA89893150040BAF097</key>
+		<string>https://github.com/abingeorgev/Sing-and-Record.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Sing-and-Record/Sing and Record.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BE8F7BBD2F5005EAFB545BA89893150040BAF097</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/abingeorgev/Sing-and-Record.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>BE8F7BBD2F5005EAFB545BA89893150040BAF097</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BE8F7BBD2F5005EAFB545BA89893150040BAF097</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Sing%20and%20Record</string>
+		</dict>
+	</array>
+</dict>
+</plist>

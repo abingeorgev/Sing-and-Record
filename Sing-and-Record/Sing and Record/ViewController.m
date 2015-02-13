@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
-#import <MediaPlayer/MediaPlayer.h>
+#import <MediaPlayer/MediaPlayer.h> 
 #import "UIImageEffects.h"
 
 @interface ViewController ()<AVAudioRecorderDelegate, AVAudioPlayerDelegate, MPMediaPickerControllerDelegate>
@@ -33,7 +33,8 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
@@ -81,31 +82,34 @@
 
 - (IBAction)startRecord:(id)sender
 {
-    //if ([self isHeadsetPluggedIn])
-    //{
-        if (!recorder.recording) {
-            AVAudioSession *session = [AVAudioSession sharedInstance];
-            [session setActive:YES error:nil];
-            
-            play.enabled = NO;
-            stop.enabled = YES;
-            rec.enabled = NO;
-            pause.enabled = NO;
-            menu.enabled = NO;
-            timerLabel.hidden = NO;
-            timerLabel.text = @"00:00";
-            ticks = 0;
-            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(aTimer) userInfo:nil repeats:YES];
-            NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-            [runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
-            
-            // Start recording
-            [recorder record];
+    if (!recorder.recording)
+    {
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+        NSError *error;
+        BOOL success = [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&error];
+        if(!success)
+        {
+            NSLog(@"error doing outputaudioportoverride - %@", [error localizedDescription]);
         }
-        [player stop];
+        
+        play.enabled = NO;
+        stop.enabled = YES;
+        rec.enabled = NO;
+        pause.enabled = NO;
+        menu.enabled = NO;
+        timerLabel.hidden = NO;
+        timerLabel.text = @"00:00";
+        ticks = 0;
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(aTimer) userInfo:nil repeats:YES];
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addTimer:timer forMode:NSDefaultRunLoopMode];
+        
+        // Start recording
+        [recorder record];
         [self playWithUrl:songUrl];
-    
-    //}
+    }
 }
 
 - (IBAction)attachKaraoke:(id)sender
@@ -121,16 +125,19 @@
 
 - (void) mediaPicker: (MPMediaPickerController *) mediaPicker didPickMediaItems: (MPMediaItemCollection *) mediaItemCollection
 {
-    if (mediaItemCollection) {
-        
-//        [musicPlayer setQueueWithItemCollection: mediaItemCollection];
-//        [musicPlayer play];
-        
+    if (mediaItemCollection)
+    { 
         MPMediaItem *mediaItem = [[mediaItemCollection items] objectAtIndex:0];
+        songUrl = mediaItem.assetURL;
         songUrl = [mediaItem valueForProperty:MPMediaItemPropertyAssetURL];
-        songName.text = [mediaItem valueForProperty:MPMediaItemPropertyTitle];
-        NSLog(@"%@", [mediaItem valueForProperty:MPMediaItemPropertyTitle]);
-        play.enabled = YES;
+        
+        if (songUrl)
+        {
+            songName.text = [mediaItem valueForProperty:MPMediaItemPropertyTitle];
+            NSLog(@"%@", [mediaItem valueForProperty:MPMediaItemPropertyTitle]);
+            play.enabled = YES;
+        }
+        
         rec.enabled = YES;
     }
     
@@ -162,13 +169,13 @@
 
 - (IBAction)stop:(id)sender
 {
-    if (player.isPlaying == YES) {
-         [player stop];
-        
+    if (player.isPlaying == YES)
+    {
+        [player stop];
     }
-    if (recorder.isRecording == YES) {
+    if (recorder.isRecording == YES)
+    {
         [recorder stop];
-        [self playWithUrl:recordedAudioURL];
     }
     
     menu.enabled = YES;
@@ -184,15 +191,12 @@
 
 -(void)playWithUrl:(NSURL*)url
 {
-    
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-    
-    
+    play.enabled = NO;
     NSError *error;
-    
     player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error: &error];
     [player setNumberOfLoops:0];
+    player.delegate = self;
+    [player setVolume: 1.0];
     [player play];
     stop.enabled = YES;
 }
@@ -237,7 +241,7 @@
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *) aRecorder successfully:(BOOL)flag
 {
-    
+    songUrl = aRecorder.url;
     NSLog (@"audioRecorderDidFinishRecording:successfully:");
     // your actions here
     
